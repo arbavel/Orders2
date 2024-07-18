@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Orders2.Backend.Data;
+using Orders2.Backend.Repositories.Implementations;
+using Orders2.Backend.Repositories.Interfaces;
+using Orders2.Backend.UnitsOfWork.Implementations;
+using Orders2.Backend.UnitsOfWork.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
+
+builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
 var app = builder.Build();
